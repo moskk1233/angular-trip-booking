@@ -1,0 +1,19 @@
+<div class="w-full z-10 bg-base-100 shadow-sm fixed">
+  <div class="navbar w-[80%] mx-auto">
+    <div class="flex-1">
+      <a href="/" class="btn btn-ghost text-xl">Trip Booking</a>
+    </div>
+    <div class="flex gap-5">
+      @if (isShowPanel()) {
+        <button class="btn btn-ghost">
+          <mat-icon>add</mat-icon>
+          <span>เพิ่มข้อมูล</span>
+        </button>
+        <button class="btn btn-ghost" (click)="onEditClick()">
+          <mat-icon>edit</mat-icon>
+          <span>แก้ไข</span>
+        </button>
+      }
+    </div>
+  </div>
+</div>

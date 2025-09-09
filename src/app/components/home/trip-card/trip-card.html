@@ -1,0 +1,26 @@
+<div class="card bg-base-100 w-96 shadow-sm transition-all hover:scale-105">
+  <figure class="max-h-60 object-cover">
+    <img
+      [src]="cover()"
+      [alt]="name()" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">{{ name() }}</h2>
+    <p>{{ country() }} | {{ destination() }}</p>
+    <p>{{ detail() | truncateWord:60 }}</p>
+    @if (editMode()) {
+      <div class="card-actions gap-2 justify-end">
+        <button class="btn btn-square btn-warning">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button class="btn btn-square btn-error">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    } @else {
+      <div class="card-actions justify-end">
+        <a href="/trips/{{ id() }}" class="btn btn-dash">ดูเพิ่มเติม</a>
+      </div>
+    }
+  </div>
+</div>
