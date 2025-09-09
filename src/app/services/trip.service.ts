@@ -21,4 +21,8 @@ export class TripService {
   getTrip(id: number) {
     return this.http.get<Trip | null>(this.config.API_ENDPOINT + `/trip/${id}`);
   }
+
+  delete(id: number) {
+    return this.http.delete(this.config.API_ENDPOINT + `/trip/${id}`);
+  }
 }

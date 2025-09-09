@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { TruncateWordPipe } from '../../../pipes/truncate-word-pipe';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -16,4 +16,10 @@ export class TripCard {
   country = input.required<string>();
   destination = input.required<string>();
   editMode = input.required<boolean>();
+
+  deleteClicked = output<number>();
+
+  onDeleteClick() {
+    this.deleteClicked.emit(this.id());
+  }
 }

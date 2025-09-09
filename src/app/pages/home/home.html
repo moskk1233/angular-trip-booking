@@ -37,6 +37,7 @@
           [destination]="trip.destination_zone"
           [detail]="trip.detail"
           [editMode]="isEditMode()"
+          (deleteClicked)="onDelete($event)"
         ></app-trip-card>
       }
     </div>
