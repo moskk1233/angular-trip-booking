@@ -1,25 +1,25 @@
 <div class="p-10">
   <div class="flex gap-5 w-[70%] mx-auto mt-20">
     <div class="flex gap-2 w-full">
-      <input type="text" placeholder="กรอก ID สถานที่" class="input input-primary w-full" />
-      <button class="btn btn-primary">
+      <input type="text" placeholder="กรอก ID สถานที่" class="input input-primary w-full" [(ngModel)]="searchId" (keyup.enter)="searchTripById()" />
+      <button class="btn btn-primary" (click)="searchTripById()">
         <mat-icon>search</mat-icon>
       </button>
     </div>
     <div class="flex gap-2 w-full">
-      <input type="text" placeholder="กรอกชื่อสถานที่" class="input input-primary w-full" />
-      <button class="btn btn-primary">
+      <input type="text" placeholder="กรอกชื่อสถานที่" class="input input-primary w-full" [(ngModel)]="tripName" (keyup.enter)="searchTripByName()" />
+      <button class="btn btn-primary" (click)="searchTripByName()">
         <mat-icon>search</mat-icon>
       </button>
     </div>
     <div class="flex gap-2 w-full">
-      <select class="select select-primary">
-        <option disabled selected>เลือกโซนประเทศ</option>
+      <select class="select select-primary w-full" [(ngModel)]="selectedDestination">
+        <option value="">ทั้งหมด</option>
         @for (destination of destinations; track $index) {
-          <option [value]="destination.value">{{ destination.name }}</option>
+          <option [value]="destination.name">{{ destination.name }}</option>
         }
       </select>
-      <button class="btn btn-primary">
+      <button class="btn btn-primary" (click)="searchByDestination()">
         <mat-icon>search</mat-icon>
       </button>
     </div>
