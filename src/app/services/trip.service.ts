@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Trip } from '../../types';
+import { CreateTrip, Trip } from '../../types';
 import { HttpClient } from '@angular/common/http';
 import { Config } from '../config';
 
@@ -24,5 +24,9 @@ export class TripService {
 
   delete(id: number) {
     return this.http.delete(this.config.API_ENDPOINT + `/trip/${id}`);
+  }
+
+  create(trip: CreateTrip) {
+    return this.http.post(this.config.API_ENDPOINT + "/trip", trip);
   }
 }

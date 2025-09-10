@@ -1,0 +1,63 @@
+<app-dialog
+  (cancelClicked)="onNewTripCancel()"
+  [isOpen]="isNewTripOpen()"
+>
+  <app-dialog-content>
+    <div class="mb-2">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">ชื่อสถานที่</legend>
+        <input [(ngModel)]="name" type="text" class="input w-full" placeholder="กรอกชื่อสถานที่" />
+      </fieldset>
+    </div>
+    <div class="mb-2">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">รายละเอียด</legend>
+        <textarea [(ngModel)]="detail" type="text" class="textarea w-full" placeholder="กรอกรายละเอียด"></textarea>
+      </fieldset>
+    </div>
+    <div class="mb-2 grid grid-cols-2 gap-5">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">ราคา</legend>
+        <input [(ngModel)]="price" type="number" class="input w-full" placeholder="กรอกราคา" />
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">ระยะเวลา</legend>
+        <input [(ngModel)]="duration" type="number" class="input w-full" placeholder="กรอกระยะเวลา" />
+      </fieldset>
+    </div>
+    <div class="mb-2">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">รูปภาพ</legend>
+        <input [(ngModel)]="coverImage" type="text" class="input w-full" placeholder="กรอกลิงค์รูปภาพ" />
+      </fieldset>
+    </div>
+    <div class="mb-2 grid grid-cols-2 gap-5">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">ประเทศ</legend>
+        <select class="select w-full" [(ngModel)]="country">
+          <option value="" disabled selected>เลือกประเทศ</option>
+          @for (country of countries; track $index) {
+            <option [value]="country.name">{{ country.name }}</option>
+          }
+        </select>
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">ทวีป</legend>
+        <select class="select w-full" [(ngModel)]="zone">
+          <option value="" disabled selected>เลือกทวีป</option>
+          @for (zone of destinations; track $index) {
+            <option [value]="zone.value">{{ zone.name }}</option>
+          }
+        </select>
+      </fieldset>
+    </div>
+  </app-dialog-content>
+
+  <app-dialog-footer>
+    <button class="btn btn-ghost" (click)="onNewTripCancel()">ยกเลิก</button>
+    <button class="btn btn-primary" (click)="onAddTrip()">
+      <mat-icon>add</mat-icon>
+      <span>สร้าง</span>
+    </button>
+  </app-dialog-footer>
+</app-dialog>

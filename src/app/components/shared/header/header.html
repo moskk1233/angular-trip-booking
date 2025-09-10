@@ -5,7 +5,7 @@
     </div>
     <div class="flex gap-5">
       @if (isShowPanel()) {
-        <button class="btn btn-ghost">
+        <button class="btn btn-ghost" (click)="onNewTripClick()">
           <mat-icon>add</mat-icon>
           <span>เพิ่มข้อมูล</span>
         </button>

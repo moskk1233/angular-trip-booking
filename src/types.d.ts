@@ -8,3 +8,13 @@ export interface Trip {
     duration:         number;
     destination_zone: string;
 }
+
+export interface CreateTrip {
+  name:             string;
+  country:          string;
+  coverimage:       string;
+  detail:           string;
+  price:            number;
+  duration:         number;
+  destinationid:    number;
+}

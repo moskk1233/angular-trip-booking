@@ -7,6 +7,8 @@ import { TripService } from '../../services/trip.service';
 import { Trip } from '../../../types';
 import { EditModeService } from '../../services/edit-mode.service';
 import Swal from 'sweetalert2';
+import { ModalState } from '../../services/home/modal-state';
+import { NewTripModal } from "../../components/home/new-trip-modal/new-trip-modal";
 
 interface Destination {
   name: string;
@@ -14,13 +16,14 @@ interface Destination {
 
 @Component({
   selector: 'app-home',
-  imports: [MatIconModule, TripCard, FormsModule],
+  imports: [MatIconModule, TripCard, FormsModule, NewTripModal],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 export class Home implements OnInit {
   tripService = inject(TripService);
   editModeService = inject(EditModeService);
+  modalState = inject(ModalState);
   snackBar = inject(MatSnackBar);
 
   trips = signal<Trip[]>([]);
@@ -28,6 +31,7 @@ export class Home implements OnInit {
   tripName = signal('');
   selectedDestination = signal('');
 
+  isEditTripOpen = computed(() => this.modalState.isEditTripOpen());
   isEditMode = computed(() => this.editModeService.isEditMode());
 
   destinations: Destination[] = [
