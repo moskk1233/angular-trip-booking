@@ -1,5 +1,7 @@
 <!-- Add Trip -->
-<app-new-trip-modal></app-new-trip-modal>
+<app-new-trip-modal
+  (addTripClicked)="handleAddTripSubmitted($event)"
+></app-new-trip-modal>
 
 <!-- Edit Trip -->
 <app-edit-trip-modal

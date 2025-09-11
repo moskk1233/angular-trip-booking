@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit, Renderer2, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, output, Renderer2, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Footer } from "../../shared/dialog/footer/footer";
 import { Dialog } from "../../shared/dialog/dialog";
@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { TripService } from '../../../services/trip.service';
 import { HttpClient } from '@angular/common/http';
+import { CreateTrip } from '../../../../types';
 
 interface Destination {
   idx: number;
@@ -52,6 +53,8 @@ export class NewTripModal implements OnInit {
 
   isModalOpen = computed(() => this.modalState.isNewTripOpen());
 
+  addTripClicked = output<CreateTrip>();
+
   onNewTripCancel() {
     this.modalState.setNewTrip(false);
   }
@@ -74,22 +77,7 @@ export class NewTripModal implements OnInit {
       price: this.price(),
       duration: this.duration()
     };
-
-    this.tripService.create(payload).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'เพิ่มข้อมูลสำเร็จ'
-        });
-      },
-      error: () => {
-        Swal.fire({
-          icon: 'error',
-          title: 'ไม่สามารถเพิ่มข้อมูลได้'
-        });
-      }
-    });
-    this.modalState.setNewTrip(false);
+    this.addTripClicked.emit(payload);
   }
 
   private checkRequireField() {

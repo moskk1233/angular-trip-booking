@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TripCard } from "../../components/home/trip-card/trip-card";
 import { TripService } from '../../services/trip.service';
-import { Trip, UpdateTrip } from '../../../types';
+import { CreateTrip, Trip, UpdateTrip } from '../../../types';
 import { EditModeService } from '../../services/edit-mode.service';
 import Swal from 'sweetalert2';
 import { ModalState } from '../../services/home/modal-state';
@@ -147,6 +147,18 @@ export class Home implements OnInit {
         this.snackBar.open('เกิดข้อมูลผิดพลาด!');
       }
     })
+  }
+
+  handleAddTripSubmitted(trip: CreateTrip) {
+    this.tripService.create(trip).subscribe({
+      next: () => {
+        this.snackBar.open('เพิ่มข้อมูลสำเร็จ');
+      },
+      error: () => {
+        this.snackBar.open('เกิดข้อผิดพลาด!');
+      }
+    });
+    this.modalState.setNewTrip(false);
   }
 
   handleEditSubmitted(trip: Trip) {
