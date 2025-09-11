@@ -18,8 +18,14 @@ export class TripById implements OnInit {
   private tripService = inject(TripService);
 
   trip = signal<Trip | null>(null);
+  isImageLoading = signal(false);
+
+  onImageLoad() {
+    this.isImageLoading.set(false);
+  }
 
   ngOnInit(): void {
+    this.isImageLoading.set(true);
     const id = this.route.snapshot.paramMap.get("id");
     if (!id) {
       this.router.navigate(['/not-found']);
