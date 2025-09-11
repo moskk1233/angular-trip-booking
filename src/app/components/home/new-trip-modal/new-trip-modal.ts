@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, Renderer2, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Footer } from "../../shared/dialog/footer/footer";
 import { Dialog } from "../../shared/dialog/dialog";
@@ -6,7 +6,6 @@ import { Content } from "../../shared/dialog/content/content";
 import { ModalState } from '../../../services/home/modal-state';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { Config } from '../../../config';
 import { TripService } from '../../../services/trip.service';
 
 interface Destination {
@@ -27,6 +26,7 @@ interface Country {
 export class NewTripModal {
   private modalState = inject(ModalState);
   private tripService = inject(TripService);
+  private renderer = inject(Renderer2);
 
   destinations: Destination[] = [
     { value: 1, name: 'เอเชีย' },
@@ -54,7 +54,7 @@ export class NewTripModal {
   zone = signal('');
   duration = signal(0);
 
-  isNewTripOpen = computed(() => this.modalState.isNewTripOpen());
+  isModalOpen = computed(() => this.modalState.isNewTripOpen());
 
   onNewTripCancel() {
     this.modalState.setNewTrip(false);
@@ -104,5 +104,17 @@ export class NewTripModal {
       !!this.country() &&
       !!this.zone() &&
       !!this.duration()
+  }
+
+  constructor() {
+    effect(() => {
+      if (this.isModalOpen()) {
+        this.renderer.addClass(document.body, 'overflow-hidden');
+        this.renderer.addClass(document.body, 'pr-[15px]');
+      } else {
+        this.renderer.removeClass(document.body, 'overflow-hidden');
+        this.renderer.removeClass(document.body, 'pr-[15px]');
+      }
+    });
   }
 }
