@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, Renderer2, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, Renderer2, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Footer } from "../../shared/dialog/footer/footer";
 import { Dialog } from "../../shared/dialog/dialog";
@@ -7,10 +7,11 @@ import { ModalState } from '../../../services/home/modal-state';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { TripService } from '../../../services/trip.service';
+import { HttpClient } from '@angular/common/http';
 
 interface Destination {
-  value: number;
-  name: string;
+  idx: number;
+  zone: string;
 }
 
 interface Country {
@@ -23,17 +24,12 @@ interface Country {
   templateUrl: './new-trip-modal.html',
   styleUrl: './new-trip-modal.css'
 })
-export class NewTripModal {
+export class NewTripModal implements OnInit {
   private modalState = inject(ModalState);
   private tripService = inject(TripService);
   private renderer = inject(Renderer2);
 
-  destinations: Destination[] = [
-    { value: 1, name: 'เอเชีย' },
-    { value: 2, name: 'ยุโรป' },
-    { value: 3, name: 'เอเชียตะวันออกเฉียงใต้' },
-    { value: 9, name: 'ประเทศไทย' },
-  ];
+  destinations = signal<Destination[]>([]);
 
   countries: Country[] = [
     { name: 'ประเทศไทย' },
@@ -116,5 +112,11 @@ export class NewTripModal {
         this.renderer.removeClass(document.body, 'pr-[15px]');
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.tripService.getDestinations().subscribe(data => {
+      this.destinations.set(data);
+    })
   }
 }

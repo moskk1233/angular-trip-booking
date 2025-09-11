@@ -45,8 +45,8 @@
           <legend class="fieldset-legend">ทวีป</legend>
           <select class="select w-full" [(ngModel)]="zone">
             <option value="" disabled selected>เลือกทวีป</option>
-            @for (zone of destinations; track $index) {
-              <option [value]="zone.value">{{ zone.name }}</option>
+            @for (zone of destinations(); track $index) {
+              <option [value]="zone.idx">{{ zone.zone }}</option>
             }
           </select>
         </fieldset>
