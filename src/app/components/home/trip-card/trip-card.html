@@ -1,4 +1,9 @@
-<div class="card bg-base-100 w-96 shadow-sm transition-all hover:scale-105">
+<div
+  #cardBox
+  class="card bg-base-100 w-96 shadow-sm"
+  (mouseover)="onMouseOver()"
+  (mouseleave)="onMouseLeave()"
+>
   <figure class="max-h-60 object-cover">
     <img
       [src]="cover()"

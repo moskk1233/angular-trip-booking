@@ -1,7 +1,8 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, output, ViewChild } from '@angular/core';
 import { TruncateWordPipe } from '../../../pipes/truncate-word-pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalState } from '../../../services/home/modal-state';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-trip-card',
@@ -20,6 +21,20 @@ export class TripCard {
 
   deleteClicked = output<number>();
   editClicked = output<number>();
+
+  @ViewChild('cardBox') cardBox!: ElementRef<HTMLDivElement>;
+
+  onMouseOver() {
+    gsap.to(this.cardBox.nativeElement,
+      { scale: 1.05, duration: 0.25, ease: 'back' }
+    )
+  }
+
+  onMouseLeave() {
+    gsap.to(this.cardBox.nativeElement,
+      { scale: 1, duration: 0.25, ease: 'back' }
+    )
+  }
 
   onDeleteClick() {
     this.deleteClicked.emit(this.id());
