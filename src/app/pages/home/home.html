@@ -2,15 +2,10 @@
 <app-new-trip-modal></app-new-trip-modal>
 
 <!-- Edit Trip -->
-<!-- <app-dialog>
-  <app-dialog-content>
-
-  </app-dialog-content>
-
-  <app-dialog-footer>
-
-  </app-dialog-footer>
-</app-dialog> -->
+<app-edit-trip-modal
+  [trip]="existedTripData()"
+  (editSubmit)="handleEditSubmitted($event)"
+></app-edit-trip-modal>
 
 <div class="p-10">
   <div class="flex gap-5 w-[70%] mx-auto mt-20">
@@ -52,6 +47,7 @@
           [detail]="trip.detail"
           [editMode]="isEditMode()"
           (deleteClicked)="onDelete($event)"
+          (editClicked)="onEdit($event)"
         ></app-trip-card>
       }
     </div>

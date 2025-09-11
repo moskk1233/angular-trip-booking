@@ -1,6 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { TruncateWordPipe } from '../../../pipes/truncate-word-pipe';
 import { MatIconModule } from '@angular/material/icon';
+import { ModalState } from '../../../services/home/modal-state';
 
 @Component({
   selector: 'app-trip-card',
@@ -18,8 +19,13 @@ export class TripCard {
   editMode = input.required<boolean>();
 
   deleteClicked = output<number>();
+  editClicked = output<number>();
 
   onDeleteClick() {
     this.deleteClicked.emit(this.id());
+  }
+
+  onEditClick() {
+    this.editClicked.emit(this.id());
   }
 }

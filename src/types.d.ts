@@ -18,3 +18,5 @@ export interface CreateTrip {
   duration:         number;
   destinationid:    number;
 }
+
+export interface UpdateTrip extends Partial<CreateTrip> {}

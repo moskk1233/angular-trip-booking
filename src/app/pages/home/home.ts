@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TripCard } from "../../components/home/trip-card/trip-card";
 import { TripService } from '../../services/trip.service';
-import { Trip } from '../../../types';
+import { Trip, UpdateTrip } from '../../../types';
 import { EditModeService } from '../../services/edit-mode.service';
 import Swal from 'sweetalert2';
 import { ModalState } from '../../services/home/modal-state';
 import { NewTripModal } from "../../components/home/new-trip-modal/new-trip-modal";
+import { EditTripModal } from "../../components/home/edit-trip-modal/edit-trip-modal";
 
 interface Destination {
   name: string;
@@ -16,7 +17,7 @@ interface Destination {
 
 @Component({
   selector: 'app-home',
-  imports: [MatIconModule, TripCard, FormsModule, NewTripModal],
+  imports: [MatIconModule, TripCard, FormsModule, NewTripModal, EditTripModal],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -30,6 +31,16 @@ export class Home implements OnInit {
   searchId = signal('');
   tripName = signal('');
   selectedDestination = signal('');
+  existedTripData = signal<Trip>({
+    idx: 0,
+    country: '',
+    coverimage: '',
+    destination_zone: '',
+    detail: '',
+    duration: 0,
+    name: '',
+    price: 0
+  });
 
   isEditTripOpen = computed(() => this.modalState.isEditTripOpen());
   isEditMode = computed(() => this.editModeService.isEditMode());
@@ -113,6 +124,48 @@ export class Home implements OnInit {
       next: () => {
         this.snackBar.open('ลบสำเร็จ!');
         this.trips.update(v => v.filter((val) => val.idx !== tripId));
+      },
+      error: () => {
+        this.snackBar.open('เกิดข้อมูลผิดพลาด!');
+      }
+    })
+  }
+
+  onEdit(tripId: number) {
+    this.tripService.getTrip(tripId).subscribe({
+      next: (data) => {
+        if (!data) {
+          this.snackBar.open('ไม่พบข้อมูลทริป');
+          return;
+        }
+
+        this.existedTripData.set(data);
+        console.log(data);
+        this.modalState.toggleEditModal();
+      },
+      error: () => {
+        this.snackBar.open('เกิดข้อมูลผิดพลาด!');
+      }
+    })
+  }
+
+  handleEditSubmitted(trip: Trip) {
+    let destinations: { idx: number, zone: string }[] = [];
+    this.tripService.getDestinations().subscribe({
+      next: (data) => {
+        destinations = data
+        const payload: UpdateTrip = {
+          ...trip,
+          destinationid: destinations.find((destination) => destination.zone === trip.destination_zone)?.idx
+        };
+
+        this.tripService.update(trip.idx, payload).subscribe({
+          next: () => {
+            this.snackBar.open('แก้ไขสำเร็จ')
+            this.modalState.setEditTrip(false);
+          },
+          error: () => this.snackBar.open('เกิดข้อมูลผิดพลาด!')
+        });
       },
       error: () => {
         this.snackBar.open('เกิดข้อมูลผิดพลาด!');

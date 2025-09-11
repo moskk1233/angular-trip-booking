@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { CreateTrip, Trip } from '../../types';
+import { CreateTrip, Trip, UpdateTrip } from '../../types';
 import { HttpClient } from '@angular/common/http';
 import { Config } from '../config';
 
@@ -12,6 +12,10 @@ export class TripService {
 
   getTrips() {
     return this.http.get<Trip[]>(this.config.API_ENDPOINT + "/trip");
+  }
+
+  getDestinations() {
+    return this.http.get<{ idx: number, zone: string }[]>(this.config.API_ENDPOINT + "/trip/destinations");
   }
 
   searchTripName(name: string) {
@@ -28,5 +32,9 @@ export class TripService {
 
   create(trip: CreateTrip) {
     return this.http.post(this.config.API_ENDPOINT + "/trip", trip);
+  }
+
+  update(id: number, trip: UpdateTrip) {
+    return this.http.put(this.config.API_ENDPOINT + `/trip/${id}`, trip);
   }
 }

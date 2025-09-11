@@ -1,0 +1,73 @@
+@if (isModalOpen()) {
+  <app-dialog
+    (cancelClicked)="onCancel()"
+  >
+    <app-dialog-content>
+      <div class="mb-6 flex flex-col justify-center items-center">
+        <div class="max-w-1/2 overflow-hidden object-cover rounded-2xl">
+          <img [src]="trip().coverimage" [alt]="trip().name">
+        </div>
+        <div class="text-black/80">
+          <span>รูปภาพตัวอย่าง</span>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">ชื่อสถานที่</legend>
+          <input [(ngModel)]="trip().name" type="text" class="input w-full" placeholder="กรอกชื่อสถานที่" />
+        </fieldset>
+      </div>
+      <div class="mb-2">
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">รายละเอียด</legend>
+          <textarea [(ngModel)]="trip().detail" type="text" class="textarea w-full" placeholder="กรอกรายละเอียด"></textarea>
+        </fieldset>
+      </div>
+      <div class="mb-2 grid grid-cols-2 gap-5">
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">ราคา</legend>
+          <input [(ngModel)]="trip().price" type="number" class="input w-full" placeholder="กรอกราคา" />
+        </fieldset>
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">ระยะเวลา</legend>
+          <input [(ngModel)]="trip().duration" type="number" class="input w-full" placeholder="กรอกระยะเวลา" />
+        </fieldset>
+      </div>
+      <div class="mb-2">
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">รูปภาพ</legend>
+          <input [(ngModel)]="trip().coverimage" type="text" class="input w-full" placeholder="กรอกลิงค์รูปภาพ" />
+        </fieldset>
+      </div>
+      <div class="mb-2 grid grid-cols-2 gap-5">
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">ประเทศ</legend>
+          <select class="select w-full" [(ngModel)]="trip().country">
+            <option value="" disabled selected>เลือกประเทศ</option>
+            @for (country of countries; track $index) {
+              <option [value]="country.name">{{ country.name }}</option>
+            }
+          </select>
+        </fieldset>
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">ทวีป</legend>
+          <select class="select w-full" [(ngModel)]="trip().destination_zone">
+            <option value="" disabled selected>เลือกทวีป</option>
+            @for (zone of destinations; track $index) {
+              <option [value]="zone.name">{{ zone.name }}</option>
+            }
+          </select>
+        </fieldset>
+      </div>
+    </app-dialog-content>
+
+    <app-dialog-footer>
+      <button class="btn btn-ghost" (click)="onCancel()">ยกเลิก</button>
+      <button class="btn btn-primary" (click)="onEditSubmit()">
+        <mat-icon>add</mat-icon>
+        <span>สร้าง</span>
+      </button>
+    </app-dialog-footer>
+  </app-dialog>
+}
