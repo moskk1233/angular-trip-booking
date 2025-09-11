@@ -122,11 +122,11 @@ export class Home implements OnInit {
 
     this.tripService.delete(tripId).subscribe({
       next: () => {
-        this.snackBar.open('ลบสำเร็จ!');
+        this.snackBar.open('ลบสำเร็จ!', 'ปิด', { duration: 1500 });
         this.trips.update(v => v.filter((val) => val.idx !== tripId));
       },
       error: () => {
-        this.snackBar.open('เกิดข้อมูลผิดพลาด!');
+        this.snackBar.open('เกิดข้อมูลผิดพลาด!', 'ปิด', { duration: 1500 });
       }
     })
   }
@@ -135,7 +135,7 @@ export class Home implements OnInit {
     this.tripService.getTrip(tripId).subscribe({
       next: (data) => {
         if (!data) {
-          this.snackBar.open('ไม่พบข้อมูลทริป');
+          this.snackBar.open('ไม่พบข้อมูลทริป', 'ปิด', { duration: 1500 });
           return;
         }
 
@@ -144,7 +144,7 @@ export class Home implements OnInit {
         this.modalState.toggleEditModal();
       },
       error: () => {
-        this.snackBar.open('เกิดข้อมูลผิดพลาด!');
+        this.snackBar.open('เกิดข้อมูลผิดพลาด!', 'ปิด', { duration: 1500 });
       }
     })
   }
@@ -152,10 +152,10 @@ export class Home implements OnInit {
   handleAddTripSubmitted(trip: CreateTrip) {
     this.tripService.create(trip).subscribe({
       next: () => {
-        this.snackBar.open('เพิ่มข้อมูลสำเร็จ');
+        this.snackBar.open('เพิ่มข้อมูลสำเร็จ', 'ปิด', { duration: 1500 });
       },
       error: () => {
-        this.snackBar.open('เกิดข้อผิดพลาด!');
+        this.snackBar.open('เกิดข้อผิดพลาด!', 'ปิด', { duration: 1500 });
       }
     });
     this.modalState.setNewTrip(false);
@@ -173,14 +173,14 @@ export class Home implements OnInit {
 
         this.tripService.update(trip.idx, payload).subscribe({
           next: () => {
-            this.snackBar.open('แก้ไขสำเร็จ')
+            this.snackBar.open('แก้ไขสำเร็จ', 'ปิด', { duration: 1500 })
             this.modalState.setEditTrip(false);
           },
-          error: () => this.snackBar.open('เกิดข้อมูลผิดพลาด!')
+          error: () => this.snackBar.open('เกิดข้อมูลผิดพลาด!', 'ปิด', { duration: 1500 })
         });
       },
       error: () => {
-        this.snackBar.open('เกิดข้อมูลผิดพลาด!');
+        this.snackBar.open('เกิดข้อมูลผิดพลาด!', 'ปิด', { duration: 1500 });
       }
     })
   }
