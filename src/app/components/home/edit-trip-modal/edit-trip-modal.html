@@ -4,8 +4,16 @@
   >
     <app-dialog-content>
       <div class="mb-6 flex flex-col justify-center items-center">
+        @if (isImageLoading()) {
+          <div class="skeleton w-1/2 h-48 rounded-2xl"></div>
+        }
         <div class="max-w-1/2 overflow-hidden object-cover rounded-2xl">
-          <img [src]="trip().coverimage" [alt]="trip().name">
+          <img
+            [src]="trip().coverimage"
+            [alt]="trip().name"
+            (load)="onImageLoad()"
+            [hidden]="isImageLoading()"
+          />
         </div>
         <div class="text-black/80">
           <span>รูปภาพตัวอย่าง</span>

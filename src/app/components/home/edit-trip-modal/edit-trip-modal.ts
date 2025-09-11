@@ -6,7 +6,6 @@ import { Content } from "../../shared/dialog/content/content";
 import { ModalState } from '../../../services/home/modal-state';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { TripService } from '../../../services/trip.service';
 import { Trip } from '../../../../types';
 
 interface Destination {
@@ -48,9 +47,15 @@ export class EditTripModal {
 
   trip = input.required<Trip>();
 
+  isImageLoading = signal(true);
+
   isModalOpen = computed(() => this.modalState.isEditTripOpen());
 
   editSubmit = output<Trip>();
+
+  onImageLoad() {
+    this.isImageLoading.set(false);
+  }
 
   onCancel() {
     this.modalState.setEditTrip(false);
@@ -81,6 +86,7 @@ export class EditTripModal {
   constructor() {
     effect(() => {
       if (this.isModalOpen()) {
+        this.isImageLoading.set(true);
         this.renderer.addClass(document.body, 'overflow-hidden');
         this.renderer.addClass(document.body, 'pr-[15px]');
       } else {
