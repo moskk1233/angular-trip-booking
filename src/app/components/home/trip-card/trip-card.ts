@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, OnInit, output, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, output, signal, ViewChild } from '@angular/core';
 import { TruncateWordPipe } from '../../../pipes/truncate-word-pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalState } from '../../../services/home/modal-state';
@@ -10,7 +10,7 @@ import { gsap } from 'gsap';
   templateUrl: './trip-card.html',
   styleUrl: './trip-card.css'
 })
-export class TripCard {
+export class TripCard implements OnInit {
   id = input.required<number>();
   name = input.required<string>();
   cover = input.required<string>();
@@ -18,6 +18,12 @@ export class TripCard {
   country = input.required<string>();
   destination = input.required<string>();
   editMode = input.required<boolean>();
+
+  isImageLoading = signal(false);
+
+  onImageLoad() {
+    this.isImageLoading.set(false);
+  }
 
   deleteClicked = output<number>();
   editClicked = output<number>();
@@ -42,5 +48,9 @@ export class TripCard {
 
   onEditClick() {
     this.editClicked.emit(this.id());
+  }
+
+  ngOnInit(): void {
+    this.isImageLoading.set(true);
   }
 }

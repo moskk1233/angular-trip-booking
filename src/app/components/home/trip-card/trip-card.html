@@ -5,9 +5,15 @@
   (mouseleave)="onMouseLeave()"
 >
   <figure class="max-h-60 object-cover">
+    @if (isImageLoading()) {
+      <div class="skeleton w-full h-60 rounded-none"></div>
+    }
     <img
       [src]="cover()"
-      [alt]="name()" />
+      [alt]="name()"
+      (load)="onImageLoad()"
+      [hidden]="isImageLoading()"
+    />
   </figure>
   <div class="card-body">
     <h2 class="card-title">{{ name() }}</h2>
